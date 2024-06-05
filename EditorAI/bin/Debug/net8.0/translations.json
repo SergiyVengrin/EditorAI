@@ -1,0 +1,66 @@
+[
+  {
+    "Key": "IndexTitle",
+    "Value": "Welcome to Editor AI"
+  },
+  {
+    "Key": "Title",
+    "Value": "OpenAI"
+  },
+  {
+    "Key": "ApplicationName",
+    "Value": "EditorAI"
+  },
+  {
+    "Key": "OptionHome",
+    "Value": "Home"
+  },
+  {
+    "Key": "StartButton",
+    "Value": "Record"
+  },
+  {
+    "Key": "PauseButton",
+    "Value": "Pause"
+  },
+  {
+    "Key": "StopButton",
+    "Value": "Stop"
+  },
+  {
+    "Key": "PromptButton",
+    "Value": "GO!"
+  },
+  {
+    "Key": "RecordingInProgressText",
+    "Value": "Recording in Progress..."
+  },
+  {
+    "Key": "RecordingPausedText",
+    "Value": "Recording Paused..."
+  },
+  {
+    "Key": "TextAreaPlaceholder",
+    "Value": "Enter or record Your text here..."
+  },
+  {
+    "Key": "PromptTextAreaPlaceholder",
+    "Value": "Enter Your prompt here..."
+  },
+  {
+    "Key": "SubHeaderTextIndex1",
+    "Value": "Record you speech end we will convert it to editable text, which you can also edit using your speech!"
+  },
+  {
+    "Key": "SubHeaderTextIndex2",
+    "Value": "We invite you to try our new feature to generate an image based on your text! Just enter the text in the text field below and click the {0} button"
+  },
+  {
+    "Key": "GenerateImageButton",
+    "Value": "Generate Image"
+  },
+  {
+    "Key": "LoadingCircleText",
+    "Value": "OpenAI translates your Web Page ..."
+  }
+]

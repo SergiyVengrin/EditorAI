@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "recorder-js": "^1.0.7",
+    "uuid": "^9.0.1"
+  }
+}

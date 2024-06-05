@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "5arlg6hI3xw3l7tbruvpvcdK7U0GsI4yk82ZD1/iaX4E/Y70cCHqr1c4qDKb3a2V9NgOyp4PDGHrvnJNOCRMuQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\serhii.venhryn\\Projects\\EditorAI\\EditorAI\\EditorAI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\serhii.venhryn\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.0-preview.4.24266.19\\microsoft.extensions.dependencyinjection.9.0.0-preview.4.24266.19.nupkg.sha512",
+    "C:\\Users\\serhii.venhryn\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.0-preview.4.24266.19\\microsoft.extensions.dependencyinjection.abstractions.9.0.0-preview.4.24266.19.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,167 @@
+﻿@model IEnumerable<TranslationModel>
+
+@{
+
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-4 mb-4">@Model.FirstOrDefault(x => x.Key == "IndexTitle")?.Value</h1>
+    <p class="lead mb-5">
+        @Model.FirstOrDefault(x => x.Key == "SubHeaderTextIndex1")?.Value
+    </p>
+    <p class="lead mb-5">
+        @string.Format(Model.FirstOrDefault(x => x.Key == "SubHeaderTextIndex2")?.Value, Model.FirstOrDefault(x => x.Key == "GenerateImageButton")?.Value)
+    </p>
+
+    <div id="recordingIndicator" class="d-none">
+        <div class="progress">
+            <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+        </div>
+        <p id="recordingInProgressText" class="mt-2 text-danger">@Model.FirstOrDefault(x => x.Key == "RecordingInProgressText")?.Value</p>
+        <p id="recordingPausedText" class="mt-2 text-danger">@Model.FirstOrDefault(x => x.Key == "RecordingPausedText")?.Value</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="d-flex flex-column align-items-center">
+                    <button id="promptButton" class="btn btn-outline-secondary mb-3" disabled>@Model.FirstOrDefault(x => x.Key == "PromptButton")?.Value</button>
+                    <textarea id="promptTextArea" class="form-control my-3" rows="10" placeholder="@Model.FirstOrDefault(x => x.Key == "PromptTextAreaPlaceholder")?.Value"></textarea>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="d-flex flex-column align-items-center">
+                    <div id="controls" class="d-flex justify-content-center mb-3">
+                        <button id="recordButton" class="btn btn-primary mx-2">@Model.FirstOrDefault(x => x.Key == "StartButton")?.Value</button>
+                        <button id="pauseButton" class="btn btn-warning mx-2" disabled>@Model.FirstOrDefault(x => x.Key == "PauseButton")?.Value</button>
+                        <button id="stopButton" class="btn btn-danger mx-2" disabled>@Model.FirstOrDefault(x => x.Key == "StopButton")?.Value</button>
+                    </div>
+                    <textarea id="textArea" class="form-control my-3" rows="10" placeholder="@Model.FirstOrDefault(x => x.Key == "TextAreaPlaceholder")?.Value"></textarea>
+                </div>
+            </div>
+            <div class="col-md-2 text-center">
+                <div class="d-flex flex-column align-items-center">
+                    <button id="generateImageButton" class="btn btn-outline-secondary mb-3" disabled>@Model.FirstOrDefault(x => x.Key == "GenerateImageButton")?.Value</button>
+                    <img id="generatedImage" src="" alt="Image" class="img-fluid"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    @* *@
+    @* <textarea id="promptTextArea" class="form-control my-3" rows="10" placeholder="@Model.FirstOrDefault(x=>x.Key == "PromptTextAreaPlaceholder")?.Value"></textarea> *@
+    @* *@
+    @* <textarea id="textArea" class="form-control my-3" rows="10" placeholder="@Model.FirstOrDefault(x=>x.Key == "TextAreaPlaceholder")?.Value"></textarea> *@
+    @* *@
+    @* <div class="d-flex justify-content-center mb-3"> *@
+    @*     <button id="generateImageButton" class="btn btn-outline-secondary" disabled>@Model.FirstOrDefault(x=>x.Key == "GenerateImageButton")?.Value</button> *@
+    @* </div> *@
+    @* <img id="generatedImage" src="" alt="Image" class="img-fluid" /> *@
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgAep2YSnDY9NgK1G5O/JpItfY8cc2ZfK1pLvJObXgQMIpBc/6H" crossorigin="anonymous"></script>
+<script src="~/js/recorder.js"></script>
+<script src="~/js/speechRecorder.js"></script>
+
+<script>
+    // Check which key was pressed
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'q' || event.key === 'Q') {
+            document.getElementById('recordButton').click();
+        }
+        else if (event.key === 'w' || event.key === 'W') {
+            document.getElementById('pauseButton').click();
+           
+        } else if (event.key === 'e' || event.key === 'E') {
+            document.getElementById('stopButton').click();
+        }
+    });
+    
+   $(document).ready(function () {
+       var textArea = $('#textArea');
+       var promptTextArea = $('#promptTextArea');
+       var generateImageButton = $('#generateImageButton');
+       var promptButton = $('#promptButton');
+       var generatedImage = $('#generatedImage');
+   
+       textArea.on('input', function () {
+           if (textArea.val().trim().length > 0) {
+               generateImageButton.removeAttr('disabled');
+               generateImageButton.removeClass('btn-outline-secondary');
+               generateImageButton.addClass('btn-outline-success');
+           } else {
+               generateImageButton.attr('disabled', 'disabled');
+               generateImageButton.removeClass('btn-outline-success');
+               generateImageButton.addClass('btn-outline-secondary');
+           }
+       });
+       
+       promptTextArea.on('input', function () {
+           if (promptTextArea.val().trim().length > 0) {
+               promptButton.removeAttr('disabled');
+               promptButton.removeClass('btn-outline-secondary');
+               promptButton.addClass('btn-outline-success');
+           } else {
+               promptButton.attr('disabled', 'disabled');
+               promptButton.removeClass('btn-outline-success');
+               promptButton.addClass('btn-outline-secondary');
+           }
+       });
+   
+       generateImageButton.on('click', function () {
+           var prompt = textArea.val().trim();
+   
+           $.ajax({
+               type: 'POST',
+               url: '/Home/GenerateImage',
+               data: { prompt: prompt },
+               success: function (result) {
+                   if (result) {
+                       console.log(result);
+                       generatedImage.attr('src', result);
+                   } else {
+                       alert('Failed to generate image.');
+                   }
+               },
+               error: function (xhr, status, error) {
+                   console.error(xhr.responseText);
+                   alert('An error occurred while generating the image.');
+               }
+           });
+       });
+       
+       promptButton.on('click', function () {
+           console.log('click');
+                  var prompt = promptTextArea.val().trim();
+                  var existingText = textArea.val().trim();
+                  
+                  const formData = new FormData();
+                  formData.append('prompt', prompt);
+                  formData.append('existingText', existingText);
+
+                  fetch('/Home/GenerateFromPrompt', {
+                      method: 'POST',
+                      body: formData
+                  })
+                  .then(response => {
+                      if (!response.ok) {
+                          throw new Error('Network response was not ok');
+                      }
+                      return response.json();
+                  })
+                  .then(function(data) {
+                      if (data && data.responseContent) {
+                          // Set the response text in the textarea
+                          document.getElementById('textArea').value = data.responseContent;
+                      } else {
+                          console.log('File sent to API:', data.message);
+                      }
+                  })
+                  .catch(error => {
+                      console.error('Error:', error);
+                  });
+              });
+   });
+</script>
