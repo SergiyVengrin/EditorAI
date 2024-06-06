@@ -15,12 +15,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@Model.FirstOrDefault(x=>x.Key == "Title")?.Value - EditorAI</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/EditorAI.styles.css" asp-append-version="true" />
+    <link id="themeStylesheet" rel="stylesheet" href="/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@Model.FirstOrDefault(x=>x.Key == "ApplicationName")?.Value</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -34,6 +33,7 @@
                         </li>
                     </ul>
                 </div>
+                <button id="themeToggle" class="btn btn-secondary ml-auto">@Model.FirstOrDefault(x=>x.Key == "ThemeToggleButton")?.Value</button>
             </div>
         </nav>
         <div class="dropdown" style="padding-left: 10px">
@@ -87,6 +87,35 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/requestsHandler.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const themeToggle = document.getElementById("themeToggle");
+        const themeStylesheet = document.getElementById("themeStylesheet");
+    
+        // Check local storage for theme preference
+        const currentTheme = localStorage.getItem("theme") || "day";
+        if (currentTheme === "night") {
+            themeStylesheet.setAttribute("href", "/css/dark-theme.css");
+            themeToggle.textContent = "Day Mode";
+        }
+    
+        themeToggle.addEventListener("click", function () {
+            if (themeStylesheet.getAttribute("href").includes("site.css")) {
+                themeStylesheet.setAttribute("href", "/css/dark-theme.css");
+                themeToggle.textContent = "Day Mode";
+                localStorage.setItem("theme", "night");
+            } else {
+                themeStylesheet.setAttribute("href", "/css/site.css");
+                themeToggle.textContent = "Night Mode";
+                localStorage.setItem("theme", "day");
+            }
+        });
+            });
+   
+</script>
+
+@await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
