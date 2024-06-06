@@ -16,6 +16,10 @@
     "Value": "Home"
   },
   {
+    "Key": "ThemeToggleButton",
+    "Value": "Switch Theme"
+  },
+  {
     "Key": "StartButton",
     "Value": "Record"
   },
@@ -49,7 +53,7 @@
   },
   {
     "Key": "SubHeaderTextIndex1",
-    "Value": "Record you speech end we will convert it to editable text, which you can also edit using your speech!"
+    "Value": "Record you speech and we will convert it to editable text, which you can also edit using your speech!"
   },
   {
     "Key": "SubHeaderTextIndex2",
